@@ -103,45 +103,6 @@ const Services = () => {
     }
   ];
 
-  const membershipPlans = [
-    {
-      name: 'Explorador',
-      price: 'Gratis',
-      features: [
-        'Búsqueda básica de animales',
-        'Información de temporadas',
-        'Acceso a guías básicas',
-        'Comunidad limitada'
-      ],
-      highlighted: false
-    },
-    {
-      name: 'Buceador Pro',
-      price: '$9.99/mes',
-      features: [
-        'Todo lo de Explorador',
-        'Planificador de viajes avanzado',
-        'Mapas interactivos completos',
-        'Alertas personalizadas',
-        'Acceso prioritario a eventos',
-        'Sin anuncios'
-      ],
-      highlighted: true
-    },
-    {
-      name: 'Centro de Buceo',
-      price: 'Personalizado',
-      features: [
-        'Perfil destacado en directorio',
-        'Análisis de tendencias',
-        'Herramientas de marketing',
-        'Soporte prioritario',
-        'API de integración'
-      ],
-      highlighted: false
-    }
-  ];
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white relative overflow-hidden">
       <div className="absolute inset-0 opacity-5 pointer-events-none">
