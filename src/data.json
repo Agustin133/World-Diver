@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "animal": "Tiburón Toro",
+    "destino": "Playa del Carmen, México",
+    "meses_inicio": 11,
+    "meses_fin": 3,
+    "dificultad": "Avanzado",
+    "imagen_url": "https://images.unsplash.com/photo-1560275619-4662e36fa65c?w=800&q=80",
+    "descripcion": "Los tiburones toro son una de las especies más impresionantes que se pueden observar en Playa del Carmen. Durante los meses de noviembre a marzo, estos magníficos depredadores migran a las aguas cálidas del Caribe mexicano. La inmersión requiere experiencia avanzada debido a las corrientes y la profundidad. Es una experiencia única para buceadores experimentados que buscan encuentros cercanos con estos fascinantes animales."
+  },
+  {
+    "id": 2,
+    "animal": "Tiburón Ballena",
+    "destino": "Mozambique",
+    "meses_inicio": 10,
+    "meses_fin": 2,
+    "dificultad": "Principiante",
+    "imagen_url": "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80",
+    "descripcion": "Mozambique es uno de los mejores lugares del mundo para nadar con tiburones ballena. Estos gentiles gigantes, el pez más grande del océano, visitan las aguas de Mozambique entre octubre y febrero. A pesar de su tamaño impresionante, son completamente inofensivos y se alimentan de plancton. Esta experiencia es apta para buceadores principiantes y snorkelers, ya que los encuentros suelen ocurrir cerca de la superficie."
+  },
+  {
+    "id": 3,
+    "animal": "Manta Raya",
+    "destino": "Islas Maldivas",
+    "meses_inicio": 5,
+    "meses_fin": 11,
+    "dificultad": "Principiante",
+    "imagen_url": "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=800&q=80",
+    "descripcion": "Las Maldivas son famosas por sus estaciones de limpieza de mantas rayas, donde estos elegantes animales acuden para ser limpiados por peces más pequeños. De mayo a noviembre, especialmente durante el monzón del suroeste, las mantas rayas se congregan en grandes números. Los buceadores de todos los niveles pueden disfrutar de encuentros cercanos con estas criaturas majestuosas en aguas cristalinas."
+  },
+  {
+    "id": 4,
+    "animal": "Gran Tiburón Blanco",
+    "destino": "Gansbaai, Sudáfrica",
+    "meses_inicio": 4,
+    "meses_fin": 9,
+    "dificultad": "Avanzado",
+    "imagen_url": "https://images.unsplash.com/photo-1560275619-4662e36fa65c?w=800&q=80",
+    "descripcion": "Gansbaai, conocida como la capital mundial del gran tiburón blanco, ofrece la oportunidad de observar a estos apex predators desde jaulas de buceo. Entre abril y septiembre, las aguas frías del Atlántico Sur atraen a numerosos tiburones blancos. Esta experiencia requiere valentía y experiencia, ya que estarás cara a cara con uno de los depredadores más poderosos del océano."
+  },
+  {
+    "id": 5,
+    "animal": "Tortuga Verde",
+    "destino": "Gran Barrera de Coral, Australia",
+    "meses_inicio": 1,
+    "meses_fin": 12,
+    "dificultad": "Principiante",
+    "imagen_url": "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80",
+    "descripcion": "La Gran Barrera de Coral es el hogar de seis de las siete especies de tortugas marinas del mundo. Las tortugas verdes se pueden observar durante todo el año en este ecosistema único. Son criaturas curiosas y amigables que a menudo se acercan a los buceadores. Esta es una experiencia perfecta para buceadores principiantes y familias, ya que las tortugas se encuentran en aguas poco profundas y tranquilas."
+  }
+]
