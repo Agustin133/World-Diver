@@ -125,27 +125,27 @@ const Services = () => {
             Descubre destinos increíbles y aprovecha nuestras promociones exclusivas
           </p>
           
-          <div className="flex justify-center gap-4 max-w-md mx-auto">
+          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 max-w-md mx-auto px-4">
             <button
               onClick={() => setActiveTab('destinos')}
-              className={`flex-1 py-3 px-6 rounded-full font-semibold transition-all ${
+              className={`flex-1 py-3 px-4 sm:px-6 rounded-full font-semibold transition-all text-sm sm:text-base ${
                 activeTab === 'destinos'
                   ? 'bg-white text-ocean-blue shadow-lg'
                   : 'bg-ocean-blue bg-opacity-50 text-white hover:bg-opacity-70'
               }`}
             >
-              <MapPin className="w-5 h-5 inline mr-2" />
-              Destinos Destacados
+              <MapPin className="w-4 h-4 sm:w-5 sm:h-5 inline mr-2" />
+              Destinos
             </button>
             <button
               onClick={() => setActiveTab('promociones')}
-              className={`flex-1 py-3 px-6 rounded-full font-semibold transition-all ${
+              className={`flex-1 py-3 px-4 sm:px-6 rounded-full font-semibold transition-all text-sm sm:text-base ${
                 activeTab === 'promociones'
                   ? 'bg-white text-ocean-blue shadow-lg'
                   : 'bg-ocean-blue bg-opacity-50 text-white hover:bg-opacity-70'
               }`}
             >
-              <Percent className="w-5 h-5 inline mr-2" />
+              <Percent className="w-4 h-4 sm:w-5 sm:h-5 inline mr-2" />
               Promociones
             </button>
           </div>
