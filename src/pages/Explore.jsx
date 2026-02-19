@@ -4,8 +4,10 @@ import FilterBar from '../components/FilterBar';
 import AnimalCard from '../components/AnimalCard';
 import DetailModal from '../components/DetailModal';
 import animalsData from '../data.json';
+import { useLanguage } from '../context/LanguageContext';
 
 const Explore = () => {
+  const { t } = useLanguage();
   const [animals, setAnimals] = useState([]);
   const [filteredAnimals, setFilteredAnimals] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -58,10 +60,10 @@ const Explore = () => {
         {filteredAnimals.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-xl text-gray-600">
-              No se encontraron resultados para tu búsqueda
+              {t('explore.noResults')}
             </p>
             <p className="text-gray-500 mt-2">
-              Intenta con otros términos o selecciona un mes diferente
+              {t('explore.noResultsDesc')}
             </p>
           </div>
         ) : (

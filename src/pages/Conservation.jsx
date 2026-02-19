@@ -1,7 +1,9 @@
 import React from 'react';
 import { Heart, ExternalLink, Waves, Fish, Shield, Globe, Anchor, Leaf } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const Conservation = () => {
+  const { t } = useLanguage();
   const organizations = [
     {
       name: 'Ocean Conservancy',
@@ -62,23 +64,28 @@ const Conservation = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      <section className="relative bg-gradient-to-r from-ocean-deep via-ocean-blue to-ocean-teal text-white py-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-64 h-64 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-ocean-light rounded-full blur-3xl"></div>
+      <section className="relative text-white py-20 px-4 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url(/images/ballena.jpg)',
+            backgroundAttachment: 'fixed',
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-ocean-deep/70 via-ocean-blue/70 to-ocean-teal/70"></div>
         </div>
         
         <div className="container mx-auto text-center relative z-10">
           <Heart className="w-20 h-20 mx-auto mb-6 text-red-300 animate-pulse" />
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            Conservación Marina
+            {t('conservation.title')}
           </h1>
           <p className="text-2xl text-ocean-light max-w-3xl mx-auto mb-8">
-            Juntos podemos proteger y preservar nuestros océanos para las futuras generaciones
+            {t('conservation.subtitle')}
           </p>
           <div className="inline-block bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-6 py-3">
             <p className="text-lg font-semibold">
-              Cada donación cuenta. Cada acción importa. 🌊
+              {t('conservation.message')}
             </p>
           </div>
         </div>

@@ -1,61 +1,71 @@
 import React, { useState } from 'react';
-import { MapPin, Star, Tag, Camera, Ship, Compass, Calendar, Percent } from 'lucide-react';
+import { MapPin, Star, Tag, Camera, Ship, Compass, Calendar, Percent, X, Info } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 const Services = () => {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState('destinos');
+  const [selectedDestination, setSelectedDestination] = useState(null);
   const featuredDestinations = [
     {
       name: 'Islas Maldivas',
       country: 'Maldivas',
       image: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=800&q=80',
-      highlights: ['Mantas Rayas', 'Tiburones Ballena', 'Arrecifes de Coral'],
+      highlights: ['Mantas Rayas', 'Tiburones Ballena', 'Arrecifes de Coral', 'Tiburones de Arrecife', 'Tortugas Marinas', 'Peces Napoleón'],
       rating: 4.9,
       description: 'Paraíso tropical con aguas cristalinas y vida marina abundante durante todo el año.',
+      detailedDescription: 'Las Maldivas son un paraíso tropical reconocido mundialmente por sus aguas cristalinas color turquesa y vida marina abundante. Este archipiélago ofrece algunos de los mejores sitios de buceo del mundo, con canales profundos donde se pueden observar mantas rayas gigantes y tiburones ballena. Los atolones están rodeados de arrecifes de coral vibrantes que albergan una increíble diversidad de especies. Es el destino perfecto para buceadores de todos los niveles que buscan encuentros memorables con megafauna marina.',
       bestMonths: 'Nov - Abr'
     },
     {
       name: 'Gran Barrera de Coral',
       country: 'Australia',
       image: 'https://images.unsplash.com/photo-1582967788606-a171c1080cb0?w=800&q=80',
-      highlights: ['Tortugas Marinas', 'Peces Tropicales', 'Corales Únicos'],
+      highlights: ['Tortugas Marinas', 'Peces Tropicales', 'Corales Únicos', 'Tiburones de Arrecife', 'Rayas Águila', 'Peces Payaso', 'Meros Gigantes'],
       rating: 5.0,
       description: 'El sistema de arrecifes más grande del mundo, hogar de miles de especies marinas.',
+      detailedDescription: 'La Gran Barrera de Coral es el sistema de arrecifes más grande del mundo y una de las siete maravillas naturales. Con más de 2,900 arrecifes individuales y 900 islas, este ecosistema alberga más de 1,500 especies de peces y 400 tipos de coral. Los buceadores pueden explorar jardines de coral prístinos, nadar con tortugas marinas verdes y carey, y observar tiburones de arrecife en su hábitat natural.',
       bestMonths: 'Jun - Oct'
     },
     {
       name: 'Galápagos',
       country: 'Ecuador',
       image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80',
-      highlights: ['Tiburones Martillo', 'Lobos Marinos', 'Iguanas Marinas'],
+      highlights: ['Tiburones Martillo', 'Lobos Marinos', 'Iguanas Marinas', 'Tiburones Ballena', 'Mantarrayas', 'Pingüinos de Galápagos', 'Tortugas Gigantes'],
       rating: 4.8,
       description: 'Biodiversidad única en el mundo, laboratorio natural de la evolución.',
+      detailedDescription: 'Las Islas Galápagos son consideradas el laboratorio natural de la evolución y uno de los destinos de buceo más extraordinarios del planeta. Este archipiélago volcánico ofrece encuentros únicos con especies endémicas que no se encuentran en ningún otro lugar del mundo. Los buceadores pueden nadar con juguetones lobos marinos, observar grandes cardúmenes de tiburones martillo en Darwin y Wolf, y encontrarse cara a cara con iguanas marinas alimentándose bajo el agua.',
       bestMonths: 'Dic - May'
     },
     {
       name: 'Raja Ampat',
       country: 'Indonesia',
       image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80',
-      highlights: ['Biodiversidad Extrema', 'Corales Pristinos', 'Mantas'],
+      highlights: ['Biodiversidad Extrema', 'Corales Pristinos', 'Mantas Rayas', 'Tiburones Wobbegong', 'Peces Mandarín', 'Caballitos de Mar Pigmeos', 'Nudibranquios'],
       rating: 4.9,
       description: 'El epicentro de la biodiversidad marina mundial con más de 1,500 especies de peces.',
+      detailedDescription: 'Raja Ampat es reconocido como el epicentro de la biodiversidad marina mundial, albergando el 75% de todas las especies de coral conocidas y más de 1,500 especies de peces. Este archipiélago remoto en Indonesia ofrece algunos de los arrecifes de coral más prístinos y saludables del planeta. Los buceadores pueden explorar paredes verticales cubiertas de coral blando, nadar con mantas rayas en estaciones de limpieza, y descubrir criaturas macro únicas.',
       bestMonths: 'Oct - Abr'
     },
     {
       name: 'Playa del Carmen',
       country: 'México',
       image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=800&q=80',
-      highlights: ['Tiburones Toro', 'Cenotes', 'Tortugas'],
+      highlights: ['Tiburones Toro', 'Cenotes', 'Tortugas Marinas', 'Peces Ángel', 'Barracudas', 'Rayas del Sur', 'Morenas'],
       rating: 4.7,
       description: 'Combina buceo en arrecife, cenotes místicos y encuentros con tiburones toro.',
+      detailedDescription: 'Playa del Carmen ofrece una experiencia de buceo única que combina arrecifes caribeños, cenotes místicos de agua dulce y emocionantes encuentros con tiburones toro. La Riviera Maya es famosa por sus cenotes, cavernas subterráneas con aguas cristalinas donde los rayos de luz crean efectos visuales espectaculares. Durante el invierno, los buceadores experimentados pueden sumergirse con tiburones toro hembra que llegan a la zona.',
       bestMonths: 'Nov - Mar'
     },
     {
       name: 'Mar Rojo',
       country: 'Egipto',
       image: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=800&q=80',
-      highlights: ['Naufragios', 'Arrecifes Vibrantes', 'Delfines'],
+      highlights: ['Naufragios Históricos', 'Arrecifes Vibrantes', 'Delfines', 'Tiburones Oceánicos', 'Peces Napoleón', 'Tortugas Carey', 'Barracudas'],
       rating: 4.6,
       description: 'Aguas cálidas, visibilidad excepcional y arrecifes de coral espectaculares.',
+      detailedDescription: 'El Mar Rojo es uno de los destinos de buceo más accesibles y espectaculares del mundo, famoso por sus aguas cálidas, visibilidad excepcional que puede superar los 30 metros, y arrecifes de coral vibrantes. La región ofrece una combinación única de buceo en arrecife y exploración de naufragios históricos como el SS Thistlegorm. Los buceadores pueden encontrarse con delfines juguetones, tiburones oceánicos de punta blanca, y una increíble variedad de peces tropicales.',
       bestMonths: 'Mar - Nov'
     }
   ];
@@ -116,13 +126,22 @@ const Services = () => {
         </svg>
       </div>
       
-      <section className="bg-gradient-to-r from-ocean-deep to-ocean-blue text-white py-16 px-4">
-        <div className="container mx-auto text-center">
+      <section className="relative text-white py-16 px-4 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url(/images/diver.jpg)',
+            backgroundAttachment: 'fixed',
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-ocean-deep/70 to-ocean-blue/70"></div>
+        </div>
+        <div className="container mx-auto text-center relative z-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Servicios World Divers
+            {t('services.title')}
           </h1>
           <p className="text-xl text-ocean-light max-w-2xl mx-auto mb-8">
-            Descubre destinos increíbles y aprovecha nuestras promociones exclusivas
+            {t('services.subtitle')}
           </p>
           
           <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 max-w-md mx-auto px-4">
@@ -135,7 +154,7 @@ const Services = () => {
               }`}
             >
               <MapPin className="w-4 h-4 sm:w-5 sm:h-5 inline mr-2" />
-              Destinos
+              {t('services.destinations')}
             </button>
             <button
               onClick={() => setActiveTab('promociones')}
@@ -146,7 +165,7 @@ const Services = () => {
               }`}
             >
               <Percent className="w-4 h-4 sm:w-5 sm:h-5 inline mr-2" />
-              Promociones
+              {t('services.promotions')}
             </button>
           </div>
         </div>
@@ -157,11 +176,11 @@ const Services = () => {
           <div className="container mx-auto max-w-7xl">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-ocean-deep mb-4">
-                Destinos Destacados
+                {t('services.featuredDestinations')}
               </h2>
               <div className="w-24 h-1 bg-ocean-blue mx-auto mb-4"></div>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                Los mejores lugares del mundo para experiencias de buceo inolvidables
+                {t('services.featuredDesc')}
               </p>
             </div>
 
@@ -210,8 +229,12 @@ const Services = () => {
                       ))}
                     </div>
                   </div>
-                  <button className="w-full bg-ocean-blue text-white py-2 rounded-lg font-semibold hover:bg-ocean-teal transition-colors">
-                    Ver Más Detalles
+                  <button 
+                    onClick={() => setSelectedDestination(destination)}
+                    className="w-full bg-ocean-blue text-white py-2 rounded-lg font-semibold hover:bg-ocean-teal transition-colors flex items-center justify-center"
+                  >
+                    <Info className="w-4 h-4 mr-2" />
+                    {t('services.viewDetails')}
                   </button>
                 </div>
               </div>
@@ -290,16 +313,96 @@ const Services = () => {
       <section className="py-16 px-4 bg-gradient-to-r from-ocean-deep to-ocean-blue text-white">
         <div className="container mx-auto max-w-4xl text-center">
           <h2 className="text-3xl font-bold mb-6">
-            ¿Listo para tu próxima aventura submarina?
+            {t('services.ctaTitle')}
           </h2>
           <p className="text-xl text-ocean-light mb-8">
-            Únete a miles de buceadores que ya planifican sus viajes con Marine Season Tracker
+            {t('services.ctaSubtitle')}
           </p>
-          <button className="bg-white text-ocean-blue px-8 py-4 rounded-full font-semibold text-lg hover:bg-yellow-400 hover:text-ocean-deep transition-colors shadow-lg">
-            Comenzar Ahora
-          </button>
+          <Link
+            to="/membresias"
+            className="inline-block bg-white text-ocean-blue px-8 py-4 rounded-full font-semibold text-lg hover:bg-yellow-400 hover:text-ocean-deep transition-colors shadow-lg"
+          >
+            {t('services.ctaButton')}
+          </Link>
         </div>
       </section>
+
+      {selectedDestination && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
+          <div className="bg-white rounded-2xl shadow-2xl overflow-hidden max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="relative">
+              <img
+                src={selectedDestination.image}
+                alt={selectedDestination.name}
+                className="w-full h-64 object-cover"
+              />
+              <button
+                onClick={() => setSelectedDestination(null)}
+                className="absolute top-4 right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors"
+              >
+                <X className="w-6 h-6 text-gray-700" />
+              </button>
+              <div className="absolute top-4 left-4 bg-white rounded-full px-3 py-1 flex items-center shadow-lg">
+                <Star className="w-4 h-4 text-yellow-500 fill-yellow-500 mr-1" />
+                <span className="font-semibold text-sm">{selectedDestination.rating}</span>
+              </div>
+            </div>
+            
+            <div className="p-8">
+              <h2 className="text-3xl font-bold text-ocean-deep mb-2">
+                {selectedDestination.name}
+              </h2>
+              <p className="text-gray-600 mb-4 flex items-center">
+                <MapPin className="w-4 h-4 mr-1" />
+                {selectedDestination.country}
+              </p>
+              
+              <div className="mb-6">
+                <div className="flex items-center text-ocean-blue mb-2">
+                  <Calendar className="w-4 h-4 mr-2" />
+                  <span className="font-semibold">Mejor época: {selectedDestination.bestMonths}</span>
+                </div>
+              </div>
+              
+              <div className="mb-6">
+                <h3 className="text-xl font-bold text-ocean-deep mb-3">{t('services.aboutDestination')}</h3>
+                <p className="text-gray-700 leading-relaxed">
+                  {selectedDestination.detailedDescription}
+                </p>
+              </div>
+              
+              <div className="mb-6">
+                <p className="text-sm font-semibold text-ocean-blue mb-3">{t('services.marineLifeHighlights')}</p>
+                <div className="flex flex-wrap gap-2">
+                  {selectedDestination.highlights.map((highlight, idx) => (
+                    <span
+                      key={idx}
+                      className="bg-ocean-light bg-opacity-20 text-ocean-deep px-3 py-2 rounded-full text-sm font-medium"
+                    >
+                      {highlight}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setSelectedDestination(null)}
+                  className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors"
+                >
+                  {t('services.close')}
+                </button>
+                <Link
+                  to="/membresias"
+                  className="flex-1 bg-ocean-blue text-white py-3 rounded-lg font-semibold hover:bg-ocean-teal transition-colors text-center"
+                >
+                  {t('services.bookTrip')}
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

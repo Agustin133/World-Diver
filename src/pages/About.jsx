@@ -1,22 +1,30 @@
 import React from 'react';
 import { Waves, Target, Heart, Users, Globe, Shield } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 const About = () => {
+  const { t } = useLanguage();
   return (
     <div className="min-h-screen">
-      <section className="relative bg-gradient-to-br from-ocean-deep via-ocean-blue to-ocean-teal text-white py-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-64 h-64 bg-ocean-light rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-ocean-teal rounded-full blur-3xl"></div>
+      <section className="relative text-white py-20 px-4 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url(/images/mar.jpg)',
+            backgroundAttachment: 'fixed',
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-ocean-deep/70 via-ocean-blue/60 to-ocean-teal/70"></div>
         </div>
         <div className="container mx-auto relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <Waves className="w-20 h-20 mx-auto mb-6 text-ocean-light animate-pulse" />
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              Acerca de World Divers
+              {t('about.title')}
             </h1>
             <p className="text-xl md:text-2xl text-ocean-light">
-              Transformando la forma en que los buzos planifican sus aventuras submarinas
+              {t('about.subtitle')}
             </p>
           </div>
         </div>
@@ -41,7 +49,7 @@ const About = () => {
                 </div>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-ocean-deep text-center mb-8">
-                Nuestra Historia
+                {t('about.ourStory')}
               </h2>
               <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed space-y-6">
                 <p>
@@ -79,7 +87,7 @@ const About = () => {
         
         <div className="container mx-auto max-w-6xl relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            Nuestros Pilares
+            {t('about.pillarsTitle')}
           </h2>
           
           <div className="grid md:grid-cols-3 gap-8">
@@ -87,9 +95,9 @@ const About = () => {
               <div className="bg-ocean-light rounded-full w-16 h-16 flex items-center justify-center mb-4 mx-auto">
                 <Globe className="w-8 h-8 text-ocean-deep" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-center">Información Centralizada</h3>
+              <h3 className="text-xl font-bold mb-3 text-center">{t('about.pillar1Title')}</h3>
               <p className="text-ocean-light text-center">
-                Toda la información que necesitas en un solo lugar: temporadas, destinos, especies y mejores prácticas de buceo responsable.
+                {t('about.pillar1Desc')}
               </p>
             </div>
 
@@ -97,9 +105,9 @@ const About = () => {
               <div className="bg-ocean-light rounded-full w-16 h-16 flex items-center justify-center mb-4 mx-auto">
                 <Shield className="w-8 h-8 text-ocean-deep" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-center">Conservación Marina</h3>
+              <h3 className="text-xl font-bold mb-3 text-center">{t('about.pillar2Title')}</h3>
               <p className="text-ocean-light text-center">
-                Promovemos el respeto por las temporadas naturales y la protección de ecosistemas marinos para futuras generaciones.
+                {t('about.pillar2Desc')}
               </p>
             </div>
 
@@ -107,9 +115,9 @@ const About = () => {
               <div className="bg-ocean-light rounded-full w-16 h-16 flex items-center justify-center mb-4 mx-auto">
                 <Users className="w-8 h-8 text-ocean-deep" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-center">Comunidad Global</h3>
+              <h3 className="text-xl font-bold mb-3 text-center">{t('about.pillar3Title')}</h3>
               <p className="text-ocean-light text-center">
-                Conectamos buzos de todo el mundo con experiencias auténticas que benefician a las comunidades locales.
+                {t('about.pillar3Desc')}
               </p>
             </div>
           </div>
@@ -124,24 +132,24 @@ const About = () => {
         
         <div className="container mx-auto max-w-4xl text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold text-ocean-deep mb-6">
-            Únete a la Revolución del Buceo Responsable
+            {t('about.ctaTitle')}
           </h2>
           <p className="text-xl text-gray-600 mb-8">
-            Forma parte de una comunidad que valora tanto la aventura como la conservación
+            {t('about.ctaSubtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/explorar"
+            <Link
+              to="/explorar"
               className="inline-flex items-center justify-center bg-ocean-blue text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-ocean-teal transition-colors shadow-lg"
             >
-              Explorar Destinos
-            </a>
-            <a
-              href="/servicios"
+              {t('about.exploreButton')}
+            </Link>
+            <Link
+              to="/membresias"
               className="inline-flex items-center justify-center bg-white text-ocean-blue border-2 border-ocean-blue px-8 py-4 rounded-full font-semibold text-lg hover:bg-ocean-blue hover:text-white transition-colors shadow-lg"
             >
-              Ver Membresías
-            </a>
+              {t('about.membershipsButton')}
+            </Link>
           </div>
         </div>
       </section>

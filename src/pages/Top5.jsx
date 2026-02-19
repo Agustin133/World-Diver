@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Trophy, MapPin, Calendar, Info } from 'lucide-react';
 import DetailModal from '../components/DetailModal';
 import animalsData from '../data.json';
+import { useLanguage } from '../context/LanguageContext';
 
 const Top5 = () => {
+  const { t } = useLanguage();
   const [selectedAnimal, setSelectedAnimal] = useState(null);
 
   const topAnimals = animalsData.slice(0, 5);
@@ -27,8 +29,17 @@ const Top5 = () => {
         <div className="absolute top-20 left-10 w-64 h-64 border-4 border-ocean-blue rounded-full"></div>
         <div className="absolute bottom-40 right-20 w-96 h-96 border-4 border-ocean-teal rounded-full"></div>
       </div>
-      <section className="bg-gradient-to-r from-ocean-deep to-ocean-blue text-white py-16 px-4">
-        <div className="container mx-auto text-center">
+      <section className="relative text-white py-16 px-4 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url(/images/delfines.jfif)',
+            backgroundAttachment: 'fixed',
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-ocean-deep/70 to-ocean-blue/70"></div>
+        </div>
+        <div className="container mx-auto text-center relative z-10">
           <Trophy className="w-16 h-16 mx-auto mb-4 text-yellow-400" />
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Top 5 Animales Marinos
