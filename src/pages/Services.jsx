@@ -27,69 +27,6 @@ const Services = () => {
     }
   };
 
-  const featuredDestinationsMock = [
-    {
-      name: 'Islas Maldivas',
-      country: 'Maldivas',
-      image: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=800&q=80',
-      highlights: ['Mantas Rayas', 'Tiburones Ballena', 'Arrecifes de Coral', 'Tiburones de Arrecife', 'Tortugas Marinas', 'Peces Napoleón'],
-      rating: 4.9,
-      description: 'Paraíso tropical con aguas cristalinas y vida marina abundante durante todo el año.',
-      detailedDescription: 'Las Maldivas son un paraíso tropical reconocido mundialmente por sus aguas cristalinas color turquesa y vida marina abundante. Este archipiélago ofrece algunos de los mejores sitios de buceo del mundo, con canales profundos donde se pueden observar mantas rayas gigantes y tiburones ballena. Los atolones están rodeados de arrecifes de coral vibrantes que albergan una increíble diversidad de especies. Es el destino perfecto para buceadores de todos los niveles que buscan encuentros memorables con megafauna marina.',
-      bestMonths: 'Nov - Abr'
-    },
-    {
-      name: 'Gran Barrera de Coral',
-      country: 'Australia',
-      image: 'https://images.unsplash.com/photo-1582967788606-a171c1080cb0?w=800&q=80',
-      highlights: ['Tortugas Marinas', 'Peces Tropicales', 'Corales Únicos', 'Tiburones de Arrecife', 'Rayas Águila', 'Peces Payaso', 'Meros Gigantes'],
-      rating: 5.0,
-      description: 'El sistema de arrecifes más grande del mundo, hogar de miles de especies marinas.',
-      detailedDescription: 'La Gran Barrera de Coral es el sistema de arrecifes más grande del mundo y una de las siete maravillas naturales. Con más de 2,900 arrecifes individuales y 900 islas, este ecosistema alberga más de 1,500 especies de peces y 400 tipos de coral. Los buceadores pueden explorar jardines de coral prístinos, nadar con tortugas marinas verdes y carey, y observar tiburones de arrecife en su hábitat natural.',
-      bestMonths: 'Jun - Oct'
-    },
-    {
-      name: 'Galápagos',
-      country: 'Ecuador',
-      image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80',
-      highlights: ['Tiburones Martillo', 'Lobos Marinos', 'Iguanas Marinas', 'Tiburones Ballena', 'Mantarrayas', 'Pingüinos de Galápagos', 'Tortugas Gigantes'],
-      rating: 4.8,
-      description: 'Biodiversidad única en el mundo, laboratorio natural de la evolución.',
-      detailedDescription: 'Las Islas Galápagos son consideradas el laboratorio natural de la evolución y uno de los destinos de buceo más extraordinarios del planeta. Este archipiélago volcánico ofrece encuentros únicos con especies endémicas que no se encuentran en ningún otro lugar del mundo. Los buceadores pueden nadar con juguetones lobos marinos, observar grandes cardúmenes de tiburones martillo en Darwin y Wolf, y encontrarse cara a cara con iguanas marinas alimentándose bajo el agua.',
-      bestMonths: 'Dic - May'
-    },
-    {
-      name: 'Raja Ampat',
-      country: 'Indonesia',
-      image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80',
-      highlights: ['Biodiversidad Extrema', 'Corales Pristinos', 'Mantas Rayas', 'Tiburones Wobbegong', 'Peces Mandarín', 'Caballitos de Mar Pigmeos', 'Nudibranquios'],
-      rating: 4.9,
-      description: 'El epicentro de la biodiversidad marina mundial con más de 1,500 especies de peces.',
-      detailedDescription: 'Raja Ampat es reconocido como el epicentro de la biodiversidad marina mundial, albergando el 75% de todas las especies de coral conocidas y más de 1,500 especies de peces. Este archipiélago remoto en Indonesia ofrece algunos de los arrecifes de coral más prístinos y saludables del planeta. Los buceadores pueden explorar paredes verticales cubiertas de coral blando, nadar con mantas rayas en estaciones de limpieza, y descubrir criaturas macro únicas.',
-      bestMonths: 'Oct - Abr'
-    },
-    {
-      name: 'Playa del Carmen',
-      country: 'México',
-      image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=800&q=80',
-      highlights: ['Tiburones Toro', 'Cenotes', 'Tortugas Marinas', 'Peces Ángel', 'Barracudas', 'Rayas del Sur', 'Morenas'],
-      rating: 4.7,
-      description: 'Combina buceo en arrecife, cenotes místicos y encuentros con tiburones toro.',
-      detailedDescription: 'Playa del Carmen ofrece una experiencia de buceo única que combina arrecifes caribeños, cenotes místicos de agua dulce y emocionantes encuentros con tiburones toro. La Riviera Maya es famosa por sus cenotes, cavernas subterráneas con aguas cristalinas donde los rayos de luz crean efectos visuales espectaculares. Durante el invierno, los buceadores experimentados pueden sumergirse con tiburones toro hembra que llegan a la zona.',
-      bestMonths: 'Nov - Mar'
-    },
-    {
-      name: 'Mar Rojo',
-      country: 'Egipto',
-      image: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=800&q=80',
-      highlights: ['Naufragios Históricos', 'Arrecifes Vibrantes', 'Delfines', 'Tiburones Oceánicos', 'Peces Napoleón', 'Tortugas Carey', 'Barracudas'],
-      rating: 4.6,
-      description: 'Aguas cálidas, visibilidad excepcional y arrecifes de coral espectaculares.',
-      detailedDescription: 'El Mar Rojo es uno de los destinos de buceo más accesibles y espectaculares del mundo, famoso por sus aguas cálidas, visibilidad excepcional que puede superar los 30 metros, y arrecifes de coral vibrantes. La región ofrece una combinación única de buceo en arrecife y exploración de naufragios históricos como el SS Thistlegorm. Los buceadores pueden encontrarse con delfines juguetones, tiburones oceánicos de punta blanca, y una increíble variedad de peces tropicales.',
-      bestMonths: 'Mar - Nov'
-    }
-  ];
-
   const promotions = [
     {
       type: 'Viaje',

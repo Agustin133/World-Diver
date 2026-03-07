@@ -5,6 +5,43 @@ import AnimalCard from '../components/AnimalCard';
 import DetailModal from '../components/DetailModal';
 import { useLanguage } from '../context/LanguageContext';
 
+const monthMap = {
+  'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6,
+  'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12
+};
+
+const transformSpeciesToAnimal = (species) => {
+  const transformed = [];
+  
+  species.occurrences.forEach(occurrence => {
+    const monthNumbers = occurrence.months.map(m => monthMap[m]);
+    const meses_inicio = Math.min(...monthNumbers);
+    const meses_fin = Math.max(...monthNumbers);
+    
+    transformed.push({
+      id: `${species._id}-${occurrence._id}`,
+      animal: species.commonName,
+      scientificName: species.scientificName,
+      destino: occurrence.destination?.name ? `${occurrence.destination.name}, ${occurrence.destination.country}` : 'Destino no especificado',
+      meses_inicio: meses_inicio,
+      meses_fin: meses_fin,
+      months: occurrence.months,
+      dificultad: species.difficulty,
+      imagen_url: species.imageUrl || 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80',
+      descripcion: species.description,
+      category: species.category,
+      probability: occurrence.probability,
+      seasonLevel: occurrence.seasonLevel,
+      logistics: occurrence.logistics,
+      environmentalSpecs: species.environmentalSpecs,
+      metadata: species.metadata,
+      speciesId: species._id
+    });
+  });
+  
+  return transformed;
+};
+
 const Explore = () => {
   const { t } = useLanguage();
   const [animals, setAnimals] = useState([]);
@@ -14,43 +51,6 @@ const Explore = () => {
   const [selectedAnimal, setSelectedAnimal] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-
-  const monthMap = {
-    'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6,
-    'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12
-  };
-
-  const transformSpeciesToAnimal = (species) => {
-    const transformed = [];
-    
-    species.occurrences.forEach(occurrence => {
-      const monthNumbers = occurrence.months.map(m => monthMap[m]);
-      const meses_inicio = Math.min(...monthNumbers);
-      const meses_fin = Math.max(...monthNumbers);
-      
-      transformed.push({
-        id: `${species._id}-${occurrence._id}`,
-        animal: species.commonName,
-        scientificName: species.scientificName,
-        destino: occurrence.destination?.name ? `${occurrence.destination.name}, ${occurrence.destination.country}` : 'Destino no especificado',
-        meses_inicio: meses_inicio,
-        meses_fin: meses_fin,
-        months: occurrence.months,
-        dificultad: species.difficulty,
-        imagen_url: species.imageUrl || 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80',
-        descripcion: species.description,
-        category: species.category,
-        probability: occurrence.probability,
-        seasonLevel: occurrence.seasonLevel,
-        logistics: occurrence.logistics,
-        environmentalSpecs: species.environmentalSpecs,
-        metadata: species.metadata,
-        speciesId: species._id
-      });
-    });
-    
-    return transformed;
-  };
 
   useEffect(() => {
     const fetchSpecies = async () => {
