@@ -15,12 +15,17 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:3000',
   'https://world-divers.vercel.app',
+  'https://world-diver.vercel.app',
   process.env.FRONTEND_URL
 ].filter(Boolean);
 
 app.use(cors({
   origin: function(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin) {
+      return callback(null, true);
+    }
+    
+    if (allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
       callback(null, true);
     } else {
       callback(null, true);
