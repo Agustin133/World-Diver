@@ -7,6 +7,8 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
 const membershipRoutes = require('./routes/memberships');
 const favoriteRoutes = require('./routes/favorites');
+const speciesRoutes = require('./routes/species');
+const destinationRoutes = require('./routes/destinations');
 
 const app = express();
 
@@ -39,6 +41,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/memberships', membershipRoutes);
 app.use('/api/favorites', favoriteRoutes);
+app.use('/api/species', speciesRoutes);
+app.use('/api/destinations', destinationRoutes);
 
 app.get('/', (req, res) => {
   res.json({ message: 'World Divers API is running 🌊' });

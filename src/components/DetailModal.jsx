@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, MapPin, Calendar, TrendingUp } from 'lucide-react';
+import { X, MapPin, Calendar, TrendingUp, Droplets, Thermometer, Eye } from 'lucide-react';
 
 const DetailModal = ({ animal, onClose }) => {
   if (!animal) return null;
@@ -16,6 +16,14 @@ const DetailModal = ({ animal, onClose }) => {
     } else {
       return `${getMonthName(animal.meses_inicio)} - ${getMonthName(animal.meses_fin)}`;
     }
+  };
+
+  const getProbabilityColor = (prob) => {
+    if (prob >= 80) return 'bg-green-500';
+    if (prob >= 60) return 'bg-green-400';
+    if (prob >= 40) return 'bg-yellow-500';
+    if (prob >= 20) return 'bg-orange-500';
+    return 'bg-red-500';
   };
 
   return (
@@ -37,11 +45,21 @@ const DetailModal = ({ animal, onClose }) => {
         
         <div className="p-6">
           <div className="flex items-start justify-between mb-4">
-            <h2 className="text-3xl font-bold text-ocean-deep">{animal.animal}</h2>
+            <div>
+              <h2 className="text-3xl font-bold text-ocean-deep">{animal.animal}</h2>
+              {animal.scientificName && (
+                <p className="text-gray-600 italic text-lg mt-1">{animal.scientificName}</p>
+              )}
+              {animal.category && (
+                <p className="text-gray-500 text-sm mt-1">{animal.category}</p>
+              )}
+            </div>
             <span
               className={`px-4 py-2 rounded-full text-sm font-semibold ${
                 animal.dificultad === 'Principiante'
                   ? 'bg-green-500 text-white'
+                  : animal.dificultad === 'Intermedio'
+                  ? 'bg-yellow-500 text-white'
                   : 'bg-orange-500 text-white'
               }`}
             >
@@ -60,10 +78,83 @@ const DetailModal = ({ animal, onClose }) => {
             </div>
           </div>
 
+          {animal.probability && (
+            <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <Eye className="w-5 h-5 mr-2 text-ocean-blue" />
+                  <span className="font-semibold text-ocean-deep">Probabilidad de Avistamiento</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-32 bg-gray-200 rounded-full h-3">
+                    <div 
+                      className={`h-3 rounded-full ${getProbabilityColor(animal.probability)}`}
+                      style={{ width: `${animal.probability}%` }}
+                    ></div>
+                  </div>
+                  <span className="font-bold text-ocean-deep">{animal.probability}%</span>
+                </div>
+              </div>
+              {animal.seasonLevel && (
+                <p className="text-sm text-gray-600 mt-2">
+                  Nivel de temporada: <span className="font-semibold">{animal.seasonLevel}</span>
+                </p>
+              )}
+              {animal.logistics && (
+                <p className="text-sm text-gray-600 mt-1">
+                  <span className="font-semibold">Logística:</span> {animal.logistics}
+                </p>
+              )}
+            </div>
+          )}
+
           <div className="mb-6">
             <h3 className="text-xl font-semibold text-ocean-deep mb-3">Descripción</h3>
             <p className="text-gray-700 leading-relaxed">{animal.descripcion}</p>
           </div>
+
+          {animal.environmentalSpecs && (
+            <div className="mb-6 grid md:grid-cols-2 gap-4">
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="flex items-center mb-2">
+                  <Thermometer className="w-5 h-5 mr-2 text-ocean-blue" />
+                  <h4 className="font-semibold text-ocean-deep">Temperatura del Agua</h4>
+                </div>
+                <p className="text-gray-700">
+                  {animal.environmentalSpecs.tempRange?.min}°C - {animal.environmentalSpecs.tempRange?.max}°C
+                </p>
+              </div>
+              
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="flex items-center mb-2">
+                  <Eye className="w-5 h-5 mr-2 text-ocean-blue" />
+                  <h4 className="font-semibold text-ocean-deep">Visibilidad</h4>
+                </div>
+                <p className="text-gray-700">{animal.environmentalSpecs.visibility || 'Variable'}</p>
+              </div>
+
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="flex items-center mb-2">
+                  <Droplets className="w-5 h-5 mr-2 text-ocean-blue" />
+                  <h4 className="font-semibold text-ocean-deep">Corrientes</h4>
+                </div>
+                <p className="text-gray-700">
+                  {animal.environmentalSpecs.currents === 'Low' ? 'Bajas' : 
+                   animal.environmentalSpecs.currents === 'Medium' ? 'Medias' : 'Fuertes'}
+                </p>
+              </div>
+
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="flex items-center mb-2">
+                  <TrendingUp className="w-5 h-5 mr-2 text-ocean-blue" />
+                  <h4 className="font-semibold text-ocean-deep">Profundidad</h4>
+                </div>
+                <p className="text-gray-700">
+                  {animal.environmentalSpecs.depthRange?.min}m - {animal.environmentalSpecs.depthRange?.max}m
+                </p>
+              </div>
+            </div>
+          )}
 
           <div className="bg-ocean-light bg-opacity-20 rounded-lg p-4">
             <div className="flex items-center mb-2">

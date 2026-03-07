@@ -1,5 +1,5 @@
 import React from 'react';
-import { Waves, Heart, Users, Globe, ArrowRight } from 'lucide-react';
+import { Heart, Users, Globe, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 

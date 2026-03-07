@@ -99,6 +99,19 @@ const Navbar = () => {
               {t('nav.about')}
             </Link>
             
+            {user?.role === 'admin' && (
+              <Link
+                to="/admin"
+                className={`px-3 py-1 rounded-lg transition-colors ${
+                  isActive('/admin') 
+                    ? 'bg-purple-600 text-white font-semibold' 
+                    : 'bg-purple-500 text-white hover:bg-purple-600 font-semibold'
+                }`}
+              >
+                Admin
+              </Link>
+            )}
+            
             {/* Botón de idioma oculto para versión 2 */}
             {/* <button
               onClick={toggleLanguage}
@@ -236,6 +249,20 @@ const Navbar = () => {
             >
               {t('nav.about')}
             </Link>
+            
+            {user?.role === 'admin' && (
+              <Link
+                to="/admin"
+                onClick={closeMenu}
+                className={`block py-2 px-4 rounded-lg transition-colors ${
+                  isActive('/admin') 
+                    ? 'bg-purple-600 text-white font-semibold' 
+                    : 'bg-purple-500 text-white hover:bg-purple-600 font-semibold'
+                }`}
+              >
+                Admin Panel
+              </Link>
+            )}
             
             {/* Botón de idioma oculto para versión 2 */}
             {/* <button

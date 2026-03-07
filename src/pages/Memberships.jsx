@@ -13,6 +13,7 @@ const Memberships = () => {
 
   useEffect(() => {
     fetchPlans();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchPlans = async () => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import { MapPin, Star, Calendar, X, ArrowRight, Globe } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';

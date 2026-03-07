@@ -17,14 +17,6 @@ export const AuthProvider = ({ children }) => {
 
   const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
-  useEffect(() => {
-    if (token) {
-      fetchUser();
-    } else {
-      setLoading(false);
-    }
-  }, [token]);
-
   const fetchUser = async () => {
     try {
       const response = await fetch(`${API_URL}/auth/me`, {
@@ -46,6 +38,15 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (token) {
+      fetchUser();
+    } else {
+      setLoading(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   const login = async (email, password) => {
     try {

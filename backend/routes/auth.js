@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/User');
-const auth = require('../middleware/auth');
+const { auth } = require('../middleware/auth');
 
 router.post('/signup', [
   body('name').trim().notEmpty().withMessage('Name is required'),
@@ -44,6 +44,7 @@ router.post('/signup', [
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
         membershipPlan: user.membershipPlan,
         membershipStatus: user.membershipStatus
       }
@@ -88,6 +89,7 @@ router.post('/login', [
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
         membershipPlan: user.membershipPlan,
         membershipStatus: user.membershipStatus
       }
@@ -105,6 +107,7 @@ router.get('/me', auth, async (req, res) => {
         id: req.user._id,
         name: req.user.name,
         email: req.user.email,
+        role: req.user.role,
         membershipPlan: req.user.membershipPlan,
         membershipStatus: req.user.membershipStatus,
         membershipExpiry: req.user.membershipExpiry,

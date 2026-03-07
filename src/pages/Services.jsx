@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapPin, Star, Tag, Camera, Ship, Compass, Calendar, Percent, X, Info } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
@@ -7,7 +7,27 @@ const Services = () => {
   const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState('destinos');
   const [selectedDestination, setSelectedDestination] = useState(null);
-  const featuredDestinations = [
+  const [destinations, setDestinations] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchDestinations();
+  }, []);
+
+  const fetchDestinations = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/destinations?isActive=true`);
+      const data = await response.json();
+      setDestinations(data.destinations || []);
+    } catch (err) {
+      console.error('Error fetching destinations:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const featuredDestinationsMock = [
     {
       name: 'Islas Maldivas',
       country: 'Maldivas',
@@ -184,62 +204,74 @@ const Services = () => {
               </p>
             </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredDestinations.map((destination, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2"
-              >
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={destination.image}
-                    alt={destination.name}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-3 right-3 bg-white rounded-full px-3 py-1 flex items-center shadow-lg">
-                    <Star className="w-4 h-4 text-yellow-500 fill-yellow-500 mr-1" />
-                    <span className="font-semibold text-sm">{destination.rating}</span>
-                  </div>
-                  <div className="absolute bottom-3 left-3 bg-ocean-blue text-white px-3 py-1 rounded-full text-xs font-semibold">
-                    <Calendar className="w-3 h-3 inline mr-1" />
-                    {destination.bestMonths}
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-2xl font-bold text-ocean-deep mb-1">
-                    {destination.name}
-                  </h3>
-                  <p className="text-sm text-gray-500 mb-3 flex items-center">
-                    <MapPin className="w-4 h-4 mr-1" />
-                    {destination.country}
-                  </p>
-                  <p className="text-gray-600 mb-4 text-sm leading-relaxed">
-                    {destination.description}
-                  </p>
-                  <div className="mb-4">
-                    <p className="text-xs font-semibold text-ocean-blue mb-2">Vida Marina Destacada:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {destination.highlights.map((highlight, idx) => (
-                        <span
-                          key={idx}
-                          className="bg-ocean-light bg-opacity-20 text-ocean-deep px-3 py-1 rounded-full text-xs font-medium"
-                        >
-                          {highlight}
-                        </span>
-                      ))}
+            {loading ? (
+              <div className="text-center py-16">
+                <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-ocean-blue"></div>
+                <p className="text-gray-600 mt-4">Cargando destinos...</p>
+              </div>
+            ) : destinations.length === 0 ? (
+              <div className="text-center py-16">
+                <p className="text-xl text-gray-600">No hay destinos disponibles</p>
+                <p className="text-gray-500 mt-2">Los destinos se mostrarán aquí cuando estén activos</p>
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {destinations.map((destination) => (
+                  <div
+                    key={destination._id}
+                    className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2"
+                  >
+                    <div className="relative h-48 overflow-hidden bg-gradient-to-br from-ocean-blue to-ocean-deep">
+                      {destination.imageUrl ? (
+                        <img
+                          src={destination.imageUrl}
+                          alt={destination.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                          }}
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <MapPin className="w-20 h-20 text-white opacity-50" />
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                      <div className="absolute bottom-3 left-3 right-3">
+                        <h3 className="text-2xl font-bold text-white mb-1">
+                          {destination.name}
+                        </h3>
+                        <p className="text-sm text-white flex items-center">
+                          <MapPin className="w-4 h-4 mr-1" />
+                          {destination.country}
+                          {destination.region && ` • ${destination.region}`}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      {destination.description && (
+                        <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
+                          {destination.description}
+                        </p>
+                      )}
+                      <div className="mb-4 text-sm text-gray-500">
+                        <p className="flex items-center">
+                          <span className="font-semibold mr-2">Coordenadas:</span>
+                          {destination.coordinates.latitude.toFixed(4)}°, {destination.coordinates.longitude.toFixed(4)}°
+                        </p>
+                      </div>
+                      <Link
+                        to="/explorar"
+                        className="w-full bg-ocean-blue text-white py-2 rounded-lg font-semibold hover:bg-ocean-teal transition-colors flex items-center justify-center"
+                      >
+                        <Info className="w-4 h-4 mr-2" />
+                        Ver Especies en este Destino
+                      </Link>
                     </div>
                   </div>
-                  <button 
-                    onClick={() => setSelectedDestination(destination)}
-                    className="w-full bg-ocean-blue text-white py-2 rounded-lg font-semibold hover:bg-ocean-teal transition-colors flex items-center justify-center"
-                  >
-                    <Info className="w-4 h-4 mr-2" />
-                    {t('services.viewDetails')}
-                  </button>
-                </div>
+                ))}
               </div>
-            ))}
-            </div>
+            )}
           </div>
         </section>
       )}

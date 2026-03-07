@@ -15,6 +15,8 @@ import Signup from './pages/Signup';
 import Memberships from './pages/Memberships';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import Admin from './pages/Admin';
+import Destinations from './pages/Destinations';
 
 function App() {
   return (
@@ -26,11 +28,13 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/explorar" element={<Explore />} />
+            <Route path="/destinos" element={<Destinations />} />
             <Route path="/top5" element={<Top5 />} />
             <Route path="/servicios" element={<Services />} />
             <Route path="/mundo" element={<World />} />
             <Route path="/conservacion" element={<Conservation />} />
             <Route path="/membresias" element={<Memberships />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />

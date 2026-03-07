@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import { Trophy, MapPin, Calendar, Info } from 'lucide-react';
 import DetailModal from '../components/DetailModal';
 import animalsData from '../data.json';
-import { useLanguage } from '../context/LanguageContext';
 
 const Top5 = () => {
-  const { t } = useLanguage();
   const [selectedAnimal, setSelectedAnimal] = useState(null);
 
   const topAnimals = animalsData.slice(0, 5);
