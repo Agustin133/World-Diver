@@ -17,6 +17,7 @@ const CollaborativeSpace = ({ destination }) => {
       fetchPhotos();
       fetchRatings();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [destination]);
 
   const fetchComments = async () => {
