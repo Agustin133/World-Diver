@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, Heart, Star, Trash2, ChevronRight, ChevronLeft } from 'lucide-react';
+import { MapPin, Star, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const MapLegend = ({ onPinSelect, selectedPinType }) => {
   const [isExpanded, setIsExpanded] = useState(true);

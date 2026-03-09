@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MessageCircle, Camera, Star, Send, Heart, Reply } from 'lucide-react';
+import { MessageCircle, Camera, Star, Send, Heart } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const CollaborativeSpace = ({ destination }) => {
