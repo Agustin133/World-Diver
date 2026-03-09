@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { MapPin, Star, Tag, Camera, Ship, Compass, Calendar, Percent, X, Info } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
@@ -7,30 +7,11 @@ import MembershipRequiredModal from '../components/MembershipRequiredModal';
 
 const Benefits = () => {
   const { t } = useLanguage();
-  const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [activeTab, setActiveTab] = useState('promociones');
   const [selectedDestination, setSelectedDestination] = useState(null);
-  const [destinations, setDestinations] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [showMembershipModal, setShowMembershipModal] = useState(false);
-
-  useEffect(() => {
-    fetchDestinations();
-  }, []);
-
-  const fetchDestinations = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/destinations?isActive=true`);
-      const data = await response.json();
-      setDestinations(data.destinations || []);
-    } catch (err) {
-      console.error('Error fetching destinations:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleClaimOffer = () => {
     if (!isAuthenticated) {
