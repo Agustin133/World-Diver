@@ -6,7 +6,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Explore from './pages/Explore';
 import Top5 from './pages/Top5';
-import Services from './pages/Services';
+import Benefits from './pages/Benefits';
 import About from './pages/About';
 import World from './pages/World';
 import Conservation from './pages/Conservation';
@@ -30,7 +30,8 @@ function App() {
             <Route path="/explorar" element={<Explore />} />
             <Route path="/destinos" element={<Destinations />} />
             <Route path="/top5" element={<Top5 />} />
-            <Route path="/servicios" element={<Services />} />
+            <Route path="/beneficios" element={<Benefits />} />
+            <Route path="/servicios" element={<Benefits />} />
             <Route path="/mundo" element={<World />} />
             <Route path="/conservacion" element={<Conservation />} />
             <Route path="/membresias" element={<Memberships />} />

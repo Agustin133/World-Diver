@@ -22,11 +22,13 @@ Render is a completely free alternative to Railway. The main difference is that 
    - **Name:** `world-divers-backend`
    - **Region:** Choose closest to your users
    - **Branch:** `main`
-   - **Root Directory:** `backend`
+   - **Root Directory:** `backend` ⚠️ **CRITICAL - Must be exactly "backend"**
    - **Runtime:** Node
-   - **Build Command:** `npm install`
-   - **Start Command:** `npm start`
+   - **Build Command:** `npm install` (This will run inside the backend folder)
+   - **Start Command:** `node server.js` ⚠️ **CRITICAL - Must be "node server.js" NOT "npm start"**
    - **Instance Type:** Free
+   
+   **Important:** When you set Root Directory to `backend`, all commands run from that directory automatically.
 
 3. **Add Environment Variables**
    Click "Advanced" and add these variables:
@@ -93,6 +95,70 @@ curl https://world-divers-backend.onrender.com/api/species?status=published
 3. **Accept the delay** - First load might be slow, but subsequent requests are fast
 
 ## Troubleshooting
+
+### ⚠️ CRITICAL: "react-scripts start" in logs (Wrong package.json)
+
+**Symptoms:**
+- Logs show: `Starting the development server...`
+- Logs show: `react-scripts start`
+- Error: `POST /api/auth/login 404 (Not Found)`
+
+**Cause:** Render is running the frontend package.json instead of backend
+
+**Solution:**
+1. Go to Render Dashboard → Your Service
+2. Click "Settings" (left sidebar)
+3. Scroll to "Build & Deploy"
+4. **Root Directory:** Change to `backend` (if it's empty or wrong)
+5. **Start Command:** Change to `node server.js` (NOT `npm start`)
+6. Click "Save Changes"
+7. Go to "Manual Deploy" → "Clear build cache & deploy"
+
+### ⚠️ Error: Cannot find module 'mongoose' (Dependencies not installed)
+
+**Symptoms:**
+- Error: `Cannot find module 'mongoose'`
+- Error: `Cannot find module 'express'`
+- Build seems to succeed but start fails
+
+**Cause:** Dependencies weren't installed in the correct directory
+
+**Solution:**
+1. Go to Render Dashboard → Your Service
+2. Click "Settings" (left sidebar)
+3. Verify these settings:
+   - **Root Directory:** Must be `backend` (not empty, not `/backend`)
+   - **Build Command:** `npm install`
+   - **Start Command:** `node server.js`
+4. Click "Save Changes"
+5. Go to "Manual Deploy" → "Clear build cache & deploy"
+6. Watch the logs - you should see `added XXX packages` during build
+
+**Alternative if still failing:**
+- Change **Build Command** to: `cd backend && npm install` (if Root Directory is empty)
+- Or delete the service and recreate it with correct Root Directory from the start
+
+### ⚠️ Port scan timeout / No open ports detected
+
+**Symptoms:**
+- Logs show: `No open ports detected, continuing to scan...`
+- Deployment times out after 10+ minutes
+- MongoDB connects successfully but service doesn't start
+
+**Cause:** Server is not binding to a port (was configured for Vercel serverless)
+
+**Solution:**
+This has been fixed in the latest code. Pull the latest changes:
+1. Make sure you have the latest code from GitHub
+2. The server now always listens on PORT in all environments
+3. Redeploy your service
+
+If you still see this error, verify `backend/server.js` contains:
+```javascript
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
+```
 
 ### Backend not responding
 - Check Render logs: Dashboard → Logs

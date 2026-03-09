@@ -120,10 +120,10 @@ const Home = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              to="/acerca-de"
+              to="/destinos"
               className="inline-flex items-center justify-center bg-white text-ocean-blue px-8 py-4 rounded-full font-semibold text-lg hover:bg-ocean-light hover:text-white transition-colors shadow-lg"
             >
-              {t('home.ctaButton1')}
+              Explorar Destinos
             </Link>
             <Link
               to="/membresias"

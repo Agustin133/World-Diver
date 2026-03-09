@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Star, Tag, Camera, Ship, Compass, Calendar, Percent, X, Info } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
+import MembershipRequiredModal from '../components/MembershipRequiredModal';
 
-const Services = () => {
+const Benefits = () => {
   const { t } = useLanguage();
-  const [activeTab, setActiveTab] = useState('destinos');
+  const { isAuthenticated, user } = useAuth();
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('promociones');
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [destinations, setDestinations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showMembershipModal, setShowMembershipModal] = useState(false);
 
   useEffect(() => {
     fetchDestinations();
@@ -24,6 +29,14 @@ const Services = () => {
       console.error('Error fetching destinations:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleClaimOffer = () => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    } else {
+      setShowMembershipModal(true);
     }
   };
 
@@ -95,123 +108,40 @@ const Services = () => {
         </div>
         <div className="container mx-auto text-center relative z-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            {t('services.title')}
+            Beneficios Exclusivos
           </h1>
           <p className="text-xl text-ocean-light max-w-2xl mx-auto mb-8">
-            {t('services.subtitle')}
+            Descubre promociones únicas y servicios especiales para miembros de World Divers
           </p>
           
-          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 max-w-md mx-auto px-4">
-            <button
-              onClick={() => setActiveTab('destinos')}
-              className={`flex-1 py-3 px-4 sm:px-6 rounded-full font-semibold transition-all text-sm sm:text-base ${
-                activeTab === 'destinos'
-                  ? 'bg-white text-ocean-blue shadow-lg'
-                  : 'bg-ocean-blue bg-opacity-50 text-white hover:bg-opacity-70'
-              }`}
-            >
-              <MapPin className="w-4 h-4 sm:w-5 sm:h-5 inline mr-2" />
-              {t('services.destinations')}
-            </button>
-            <button
-              onClick={() => setActiveTab('promociones')}
-              className={`flex-1 py-3 px-4 sm:px-6 rounded-full font-semibold transition-all text-sm sm:text-base ${
-                activeTab === 'promociones'
-                  ? 'bg-white text-ocean-blue shadow-lg'
-                  : 'bg-ocean-blue bg-opacity-50 text-white hover:bg-opacity-70'
-              }`}
-            >
-              <Percent className="w-4 h-4 sm:w-5 sm:h-5 inline mr-2" />
-              {t('services.promotions')}
-            </button>
+          <div className="flex justify-center">
+            <div className="inline-flex bg-white bg-opacity-20 rounded-full p-1">
+              <button
+                onClick={() => setActiveTab('promociones')}
+                className={`py-3 px-6 rounded-full font-semibold transition-all ${
+                  activeTab === 'promociones'
+                    ? 'bg-white text-ocean-blue shadow-lg'
+                    : 'text-white hover:bg-white hover:bg-opacity-10'
+                }`}
+              >
+                <Percent className="w-5 h-5 inline mr-2" />
+                Promociones
+              </button>
+              <button
+                onClick={() => setActiveTab('servicios')}
+                className={`py-3 px-6 rounded-full font-semibold transition-all ${
+                  activeTab === 'servicios'
+                    ? 'bg-white text-ocean-blue shadow-lg'
+                    : 'text-white hover:bg-white hover:bg-opacity-10'
+                }`}
+              >
+                <MapPin className="w-5 h-5 inline mr-2" />
+                Servicios
+              </button>
+            </div>
           </div>
         </div>
       </section>
-
-      {activeTab === 'destinos' && (
-        <section className="py-16 px-4">
-          <div className="container mx-auto max-w-7xl">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-ocean-deep mb-4">
-                {t('services.featuredDestinations')}
-              </h2>
-              <div className="w-24 h-1 bg-ocean-blue mx-auto mb-4"></div>
-              <p className="text-gray-600 max-w-2xl mx-auto">
-                {t('services.featuredDesc')}
-              </p>
-            </div>
-
-            {loading ? (
-              <div className="text-center py-16">
-                <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-ocean-blue"></div>
-                <p className="text-gray-600 mt-4">Cargando destinos...</p>
-              </div>
-            ) : destinations.length === 0 ? (
-              <div className="text-center py-16">
-                <p className="text-xl text-gray-600">No hay destinos disponibles</p>
-                <p className="text-gray-500 mt-2">Los destinos se mostrarán aquí cuando estén activos</p>
-              </div>
-            ) : (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {destinations.map((destination) => (
-                  <div
-                    key={destination._id}
-                    className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2"
-                  >
-                    <div className="relative h-48 overflow-hidden bg-gradient-to-br from-ocean-blue to-ocean-deep">
-                      {destination.imageUrl ? (
-                        <img
-                          src={destination.imageUrl}
-                          alt={destination.name}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.target.style.display = 'none';
-                          }}
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <MapPin className="w-20 h-20 text-white opacity-50" />
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                      <div className="absolute bottom-3 left-3 right-3">
-                        <h3 className="text-2xl font-bold text-white mb-1">
-                          {destination.name}
-                        </h3>
-                        <p className="text-sm text-white flex items-center">
-                          <MapPin className="w-4 h-4 mr-1" />
-                          {destination.country}
-                          {destination.region && ` • ${destination.region}`}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="p-6">
-                      {destination.description && (
-                        <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
-                          {destination.description}
-                        </p>
-                      )}
-                      <div className="mb-4 text-sm text-gray-500">
-                        <p className="flex items-center">
-                          <span className="font-semibold mr-2">Coordenadas:</span>
-                          {destination.coordinates.latitude.toFixed(4)}°, {destination.coordinates.longitude.toFixed(4)}°
-                        </p>
-                      </div>
-                      <Link
-                        to="/explorar"
-                        className="w-full bg-ocean-blue text-white py-2 rounded-lg font-semibold hover:bg-ocean-teal transition-colors flex items-center justify-center"
-                      >
-                        <Info className="w-4 h-4 mr-2" />
-                        Ver Especies en este Destino
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </section>
-      )}
 
       {activeTab === 'promociones' && (
         <section className="py-16 px-4 bg-gradient-to-b from-white to-blue-50">
@@ -268,12 +198,64 @@ const Services = () => {
                     </p>
                   </div>
                   
-                  <button className="w-full bg-ocean-blue text-white py-3 rounded-lg font-semibold hover:bg-ocean-teal transition-colors">
+                  <button 
+                    onClick={handleClaimOffer}
+                    className="w-full bg-ocean-blue text-white py-3 rounded-lg font-semibold hover:bg-ocean-teal transition-colors"
+                  >
                     Aprovechar Oferta
                   </button>
                 </div>
               </div>
             ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {activeTab === 'servicios' && (
+        <section className="py-16 px-4 bg-gradient-to-b from-white to-blue-50">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-ocean-deep mb-4">
+                Servicios Adicionales
+              </h2>
+              <div className="w-24 h-1 bg-ocean-blue mx-auto mb-4"></div>
+              <p className="text-gray-600 max-w-2xl mx-auto">
+                Próximamente tendrás acceso a servicios exclusivos para mejorar tu experiencia de buceo
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                { title: 'Paquetes y Excursiones', icon: Ship, color: 'blue' },
+                { title: 'Accesorios de Viaje', icon: Tag, color: 'green' },
+                { title: 'Certificaciones de Buceo', icon: Star, color: 'purple' },
+                { title: 'Trajes de Baño', icon: Compass, color: 'pink' },
+                { title: 'Equipos de Buceo', icon: Camera, color: 'indigo' },
+                { title: 'Seguros de Viaje', icon: MapPin, color: 'orange' },
+                { title: 'Seguros de Buceo', icon: Info, color: 'teal' }
+              ].map((service, index) => {
+                const Icon = service.icon;
+                return (
+                  <div
+                    key={index}
+                    className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1"
+                  >
+                    <div className={`w-16 h-16 bg-${service.color}-100 rounded-full flex items-center justify-center mb-4`}>
+                      <Icon className={`w-8 h-8 text-${service.color}-600`} />
+                    </div>
+                    <h3 className="text-xl font-bold text-ocean-deep mb-3">
+                      {service.title}
+                    </h3>
+                    <span className="inline-block px-4 py-2 bg-yellow-100 text-yellow-800 text-sm font-semibold rounded-full mb-3">
+                      Próximamente
+                    </span>
+                    <p className="text-gray-600 text-sm">
+                      Este servicio estará disponible muy pronto para todos nuestros miembros
+                    </p>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -295,6 +277,11 @@ const Services = () => {
           </Link>
         </div>
       </section>
+
+      <MembershipRequiredModal 
+        isOpen={showMembershipModal} 
+        onClose={() => setShowMembershipModal(false)} 
+      />
 
       {selectedDestination && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4">
@@ -376,4 +363,4 @@ const Services = () => {
   );
 };
 
-export default Services;
+export default Benefits;

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { MapPin, Globe, Anchor, Search } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { MapPin, Globe, Anchor, Search, X, Calendar, Info } from 'lucide-react';
+import { getContinentsFromDestinations, filterByContinent } from '../utils/continentMapping';
 
 const Destinations = () => {
   const [destinations, setDestinations] = useState([]);
@@ -7,7 +8,8 @@ const Destinations = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedRegion, setSelectedRegion] = useState('all');
+  const [selectedContinent, setSelectedContinent] = useState('all');
+  const [selectedDestination, setSelectedDestination] = useState(null);
 
   useEffect(() => {
     fetchDestinations();
@@ -46,14 +48,14 @@ const Destinations = () => {
       );
     }
 
-    if (selectedRegion !== 'all') {
-      results = results.filter(dest => dest.region === selectedRegion);
+    if (selectedContinent !== 'all') {
+      results = filterByContinent(results, selectedContinent);
     }
 
     setFilteredDestinations(results);
-  }, [searchTerm, selectedRegion, destinations]);
+  }, [searchTerm, selectedContinent, destinations]);
 
-  const regions = [...new Set(destinations.map(d => d.region).filter(Boolean))];
+  const continents = useMemo(() => getContinentsFromDestinations(destinations), [destinations]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
@@ -90,33 +92,34 @@ const Destinations = () => {
             />
           </div>
 
-          {regions.length > 0 && (
+          <div>
+            <p className="text-sm font-semibold text-ocean-deep mb-3">Filtrar por continente:</p>
             <div className="flex flex-wrap gap-2">
               <button
-                onClick={() => setSelectedRegion('all')}
+                onClick={() => setSelectedContinent('all')}
                 className={`px-4 py-2 rounded-full font-semibold transition ${
-                  selectedRegion === 'all'
-                    ? 'bg-ocean-blue text-white'
+                  selectedContinent === 'all'
+                    ? 'bg-ocean-blue text-white shadow-md'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
               >
                 Todos
               </button>
-              {regions.map(region => (
+              {continents.map(continent => (
                 <button
-                  key={region}
-                  onClick={() => setSelectedRegion(region)}
+                  key={continent}
+                  onClick={() => setSelectedContinent(continent)}
                   className={`px-4 py-2 rounded-full font-semibold transition ${
-                    selectedRegion === region
-                      ? 'bg-ocean-blue text-white'
+                    selectedContinent === continent
+                      ? 'bg-ocean-blue text-white shadow-md'
                       : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                   }`}
                 >
-                  {region}
+                  {continent}
                 </button>
               ))}
             </div>
-          )}
+          </div>
         </div>
 
         {loading ? (
@@ -147,7 +150,8 @@ const Destinations = () => {
               {filteredDestinations.map((destination) => (
                 <div
                   key={destination._id}
-                  className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-xl"
+                  onClick={() => setSelectedDestination(destination)}
+                  className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-xl cursor-pointer"
                 >
                   <div className="relative h-56 overflow-hidden bg-gradient-to-br from-ocean-blue to-ocean-deep">
                     {destination.imageUrl ? (
@@ -200,6 +204,148 @@ const Destinations = () => {
           </>
         )}
       </div>
+
+      {/* Modal de detalle del destino */}
+      {selectedDestination && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl overflow-hidden max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="relative">
+              {selectedDestination.imageUrl ? (
+                <img
+                  src={selectedDestination.imageUrl}
+                  alt={selectedDestination.name}
+                  className="w-full h-64 object-cover"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
+              ) : (
+                <div className="w-full h-64 bg-gradient-to-br from-ocean-blue to-ocean-deep flex items-center justify-center">
+                  <Anchor className="w-24 h-24 text-white opacity-50" />
+                </div>
+              )}
+              <button
+                onClick={() => setSelectedDestination(null)}
+                className="absolute top-4 right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors"
+              >
+                <X className="w-6 h-6 text-gray-700" />
+              </button>
+            </div>
+            
+            <div className="p-8">
+              <h2 className="text-3xl font-bold text-ocean-deep mb-2">
+                {selectedDestination.name}
+              </h2>
+              <div className="flex items-center text-gray-600 mb-4">
+                <Globe className="w-5 h-5 mr-2" />
+                <span className="font-semibold">{selectedDestination.country}</span>
+                {selectedDestination.region && (
+                  <span className="ml-2 px-3 py-1 bg-ocean-light text-ocean-deep text-sm rounded-full">
+                    {selectedDestination.region}
+                  </span>
+                )}
+              </div>
+              
+              <div className="mb-6">
+                <div className="flex items-center text-ocean-blue mb-2">
+                  <MapPin className="w-5 h-5 mr-2" />
+                  <span className="font-semibold">
+                    Coordenadas: {selectedDestination.coordinates.latitude.toFixed(4)}°, {selectedDestination.coordinates.longitude.toFixed(4)}°
+                  </span>
+                </div>
+              </div>
+              
+              {selectedDestination.description && (
+                <div className="mb-6">
+                  <h3 className="text-xl font-bold text-ocean-deep mb-3">Sobre este destino</h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    {selectedDestination.description}
+                  </p>
+                </div>
+              )}
+              
+              <div className="space-y-4">
+                <div className="bg-ocean-light bg-opacity-20 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center">
+                      <Calendar className="w-5 h-5 mr-2 text-ocean-blue" />
+                      <h3 className="text-lg font-semibold text-ocean-deep">
+                        Mejor época para visitar
+                      </h3>
+                    </div>
+                    <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full">
+                      Próximamente
+                    </span>
+                  </div>
+                  <p className="text-gray-600 italic text-sm">
+                    Información sobre la mejor temporada para bucear en este destino
+                  </p>
+                </div>
+
+                <div className="bg-blue-50 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center">
+                      <Info className="w-5 h-5 mr-2 text-blue-600" />
+                      <h3 className="text-lg font-semibold text-blue-800">
+                        Vida marina destacada
+                      </h3>
+                    </div>
+                    <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full">
+                      Próximamente
+                    </span>
+                  </div>
+                  <p className="text-gray-600 italic text-sm">
+                    Especies marinas que puedes encontrar en este destino
+                  </p>
+                </div>
+
+                <div className="bg-green-50 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center">
+                      <Anchor className="w-5 h-5 mr-2 text-green-600" />
+                      <h3 className="text-lg font-semibold text-green-800">
+                        Centros de buceo recomendados
+                      </h3>
+                    </div>
+                    <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full">
+                      Próximamente
+                    </span>
+                  </div>
+                  <p className="text-gray-600 italic text-sm">
+                    Lista de centros de buceo certificados en esta zona
+                  </p>
+                </div>
+
+                <div className="bg-purple-50 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center">
+                      <Globe className="w-5 h-5 mr-2 text-purple-600" />
+                      <h3 className="text-lg font-semibold text-purple-800">
+                        Perfil de la aventura
+                      </h3>
+                    </div>
+                    <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full">
+                      Próximamente
+                    </span>
+                  </div>
+                  <p className="text-gray-600 italic text-sm">
+                    Nivel de dificultad, profundidad, corrientes y más información técnica
+                  </p>
+                </div>
+              </div>
+              
+              <div className="mt-6">
+                <button
+                  onClick={() => setSelectedDestination(null)}
+                  className="w-full bg-ocean-blue text-white py-3 rounded-lg font-semibold hover:bg-ocean-teal transition-colors"
+                >
+                  Cerrar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

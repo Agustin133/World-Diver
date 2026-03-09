@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import HeroSection from '../components/HeroSection';
 import FilterBar from '../components/FilterBar';
+import AnimalFilter from '../components/AnimalFilter';
 import AnimalCard from '../components/AnimalCard';
 import DetailModal from '../components/DetailModal';
 import { useLanguage } from '../context/LanguageContext';
+import { searchInFields } from '../utils/searchUtils';
 
 const monthMap = {
   'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6,
@@ -48,6 +50,7 @@ const Explore = () => {
   const [filteredAnimals, setFilteredAnimals] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMonth, setSelectedMonth] = useState(0);
+  const [selectedLetter, setSelectedLetter] = useState(null);
   const [selectedAnimal, setSelectedAnimal] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -81,14 +84,19 @@ const Explore = () => {
   useEffect(() => {
     let results = [...animals];
 
+    // Búsqueda normalizada sin acentos
     if (searchTerm) {
-      results = results.filter(
-        (animal) =>
-          animal.animal.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          animal.destino.toLowerCase().includes(searchTerm.toLowerCase())
+      results = searchInFields(results, searchTerm, ['animal', 'destino', 'scientificName']);
+    }
+
+    // Filtro por letra
+    if (selectedLetter) {
+      results = results.filter((animal) => 
+        animal.animal && animal.animal.charAt(0).toUpperCase() === selectedLetter
       );
     }
 
+    // Filtro por mes
     if (selectedMonth !== 0) {
       results = results.filter((animal) => {
         if (animal.meses_inicio <= animal.meses_fin) {
@@ -100,7 +108,7 @@ const Explore = () => {
     }
 
     setFilteredAnimals(results);
-  }, [searchTerm, selectedMonth, animals]);
+  }, [searchTerm, selectedLetter, selectedMonth, animals]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-ocean-light to-opacity-10 relative overflow-hidden">
@@ -114,6 +122,11 @@ const Explore = () => {
       </div>
       <HeroSection searchTerm={searchTerm} onSearchChange={setSearchTerm} />
       <FilterBar selectedMonth={selectedMonth} onMonthChange={setSelectedMonth} />
+      <AnimalFilter 
+        animals={animals} 
+        selectedLetter={selectedLetter} 
+        onLetterChange={setSelectedLetter} 
+      />
       
       <div className="container mx-auto px-4 py-8">
         {loading ? (

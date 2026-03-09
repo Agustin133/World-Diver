@@ -156,16 +156,57 @@ const DetailModal = ({ animal, onClose }) => {
             </div>
           )}
 
-          <div className="bg-ocean-light bg-opacity-20 rounded-lg p-4">
-            <div className="flex items-center mb-2">
-              <TrendingUp className="w-5 h-5 mr-2 text-ocean-blue" />
-              <h3 className="text-lg font-semibold text-ocean-deep">
-                Centros de buceo recomendados
-              </h3>
+          <div className="space-y-4">
+            <div className="bg-ocean-light bg-opacity-20 rounded-lg p-4">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center">
+                  <TrendingUp className="w-5 h-5 mr-2 text-ocean-blue" />
+                  <h3 className="text-lg font-semibold text-ocean-deep">
+                    Centros de buceo recomendados
+                  </h3>
+                </div>
+                <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full">
+                  Próximamente
+                </span>
+              </div>
+              <p className="text-gray-600 italic text-sm">
+                Lista de centros de buceo certificados en esta zona
+              </p>
             </div>
-            <p className="text-gray-600 italic">
-              Próximamente: Lista de centros de buceo certificados en esta zona
-            </p>
+
+            <div className="bg-green-50 rounded-lg p-4">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center">
+                  <Eye className="w-5 h-5 mr-2 text-green-600" />
+                  <h3 className="text-lg font-semibold text-green-800">
+                    Tips para buceo respetuoso
+                  </h3>
+                </div>
+                <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full">
+                  Próximamente
+                </span>
+              </div>
+              <p className="text-gray-600 italic text-sm">
+                Consejos para observar esta especie sin alterar su comportamiento natural
+              </p>
+            </div>
+
+            <div className="bg-blue-50 rounded-lg p-4">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center">
+                  <Calendar className="w-5 h-5 mr-2 text-blue-600" />
+                  <h3 className="text-lg font-semibold text-blue-800">
+                    Aprende más sobre esta especie
+                  </h3>
+                </div>
+                <span className="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full">
+                  Próximamente
+                </span>
+              </div>
+              <p className="text-gray-600 italic text-sm">
+                Información detallada sobre comportamiento, conservación y curiosidades
+              </p>
+            </div>
           </div>
         </div>
       </div>
